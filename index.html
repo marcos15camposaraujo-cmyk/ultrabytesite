@@ -7,13 +7,133 @@
   <title>UltraByte | Informática</title>
   <meta name="description" content="UltraByte: manutenção, reparação, montagem e melhoria de computadores.">
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* Área administrativa integrada */
+    #adminArea {
+      max-width: 1000px;
+      margin: 35px auto;
+      padding: 20px;
+      color: #eef3ff;
+      background: #101a2d;
+      border: 1px solid #2b3c59;
+      border-radius: 14px;
+    }
+
+    #adminArea[hidden] { display: none; }
+
+    #adminArea input,
+    #adminArea textarea {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 7px 0 15px;
+      padding: 12px;
+      color: #fff;
+      background: #091120;
+      border: 1px solid #354765;
+      border-radius: 8px;
+      font: inherit;
+    }
+
+    #adminArea textarea {
+      min-height: 220px;
+      font-family: monospace;
+    }
+
+    #adminArea button {
+      margin: 4px;
+      padding: 10px 14px;
+      cursor: pointer;
+      border: 0;
+      border-radius: 7px;
+      font-weight: bold;
+    }
+
+    #adminArea .admin-primary {
+      color: #061326;
+      background: #69adff;
+    }
+
+    #adminArea .admin-secondary {
+      color: #fff;
+      background: #293954;
+    }
+
+    #adminArea .admin-delete {
+      color: #fff;
+      background: #8a2d40;
+    }
+
+    #adminStatus {
+      padding: 10px;
+      overflow-wrap: anywhere;
+      border-radius: 7px;
+      background: #091120;
+    }
+
+    #adminArticles {
+      display: grid;
+      gap: 10px;
+    }
+
+    .admin-article {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid #354765;
+      border-radius: 8px;
+    }
+
+    .admin-article small {
+      display: block;
+      overflow-wrap: anywhere;
+    }
+
+    #adminArea .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    #adminArea label { font-weight: bold; }
+
+    .admin-help {
+      color: #aab9d3;
+      font-size: .9rem;
+    }
+
+    .admin-hidden { display: none !important; }
+
+    .admin-footer-link {
+      font-size: .85rem;
+      opacity: .7;
+      text-decoration: none;
+    }
+
+    .admin-footer-link:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      #adminArea .admin-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
+
 <body>
   <header class="topo">
     <a class="logo" href="index.html">⚡ UltraByte</a>
     <nav aria-label="Menu principal">
-      <a href="index.html">Início</a><a href="#servicos">Serviços</a>
-      <a href="blog.html">Blog</a><a href="#sobre">Sobre</a><a href="#contato">Contato</a>
+      <a href="index.html">Início</a>
+      <a href="#servicos">Serviços</a>
+      <a href="blog.html">Blog</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contato">Contato</a>
     </nav>
   </header>
 
@@ -32,17 +152,14 @@
           <h3>🔧 Manutenção</h3>
           <p>Diagnóstico e reparação de computadores.</p>
         </article>
-
         <article class="card">
           <h3>🖥️ Montagem de PCs</h3>
           <p>Escolha de peças e montagem de equipamentos.</p>
         </article>
-
         <article class="card">
           <h3>⚡ Upgrades</h3>
           <p>Melhorias com SSD, memória RAM e outros componentes.</p>
         </article>
-
         <article class="card">
           <h3>💿 Instalação de sistemas</h3>
           <p>Instalação de sistemas operacionais e programas.</p>
@@ -58,25 +175,329 @@
     <section class="contato" id="contato">
       <h2>Precisa de ajuda?</h2>
       <p>Entre em contato para consultar serviços e orçamentos.</p>
-
-      <!-- Substitua 5511999999999 pelo seu número com código do país e DDD -->
-      <a class="botao" href="https://wa.me/5511999999999" target="_blank" rel="noopener noreferrer">
+      <!-- Substitua pelo seu número com código do país e DDD -->
+      <a class="botao" href="https://wa.me/5511999999999"
+         target="_blank" rel="noopener noreferrer">
         Falar pelo WhatsApp
       </a>
+    </section>
+
+    <!-- PAINEL ADMINISTRATIVO NO MESMO INDEX -->
+    <section id="adminArea" hidden>
+      <h2>⚙️ Área administrativa UltraByte</h2>
+      <p id="adminStatus" role="status" aria-live="polite">
+        Configure a URL do Cloudflare Worker para ativar o painel.
+      </p>
+
+      <div id="adminLogin">
+        <h3>Entrar no painel</h3>
+        <p class="admin-help">
+          Use a senha administrativa configurada no Worker.
+          Não coloque seu token GitHub aqui.
+        </p>
+
+        <form id="adminLoginForm">
+          <label for="adminPassword">Senha administrativa</label>
+          <input id="adminPassword" type="password"
+                 autocomplete="current-password" required>
+          <button class="admin-primary" type="submit">Entrar</button>
+        </form>
+      </div>
+
+      <div id="adminDashboard" class="admin-hidden">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+          <h3>Artigos HTML</h3>
+          <div>
+            <button class="admin-secondary" id="adminRefresh" type="button">Atualizar</button>
+            <button class="admin-secondary" id="adminLogout" type="button">Sair</button>
+          </div>
+        </div>
+
+        <div id="adminArticles"></div>
+
+        <hr style="margin:25px 0;border-color:#354765">
+
+        <h3 id="adminFormTitle">Criar artigo</h3>
+        <form id="adminArticleForm">
+          <div class="admin-grid">
+            <div>
+              <label for="adminSlug">Nome do arquivo</label>
+              <input id="adminSlug" placeholder="guia-de-informatica"
+                     pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+                     maxlength="100" required>
+              <p class="admin-help">Será salvo como artigos/nome-do-arquivo.html</p>
+            </div>
+            <div>
+              <label for="adminTitle">Título do artigo</label>
+              <input id="adminTitle" maxlength="180" required>
+            </div>
+          </div>
+
+          <label for="adminHtml">Conteúdo HTML</label>
+          <textarea id="adminHtml" spellcheck="false"
+                    placeholder="Escreva ou cole o HTML do artigo aqui..."
+                    required></textarea>
+
+          <div>
+            <button class="admin-primary" id="adminSave" type="submit">
+              Salvar artigo no GitHub
+            </button>
+            <button class="admin-secondary" id="adminNew" type="button">
+              Novo artigo
+            </button>
+          </div>
+        </form>
+        <p class="admin-help">
+          As alterações são gravadas no repositório pelo Worker.
+          A atualização pública do GitHub Pages pode levar alguns minutos.
+        </p>
+      </div>
     </section>
   </main>
 
   <footer>
     <p>© <span id="ano"></span> UltraByte</p>
     <a href="blog.html">Acessar blog</a>
-
-    <!-- Link discreto para a área administrativa -->
-    <a
-      href="admin.html"
-      style="font-size: 12px; opacity: 0.55; margin-left: 10px;"
-    >Área administrativa</a>
+    <a href="#adminArea" id="openAdmin" class="admin-footer-link">
+      Área administrativa
+    </a>
   </footer>
 
   <script src="script.js"></script>
+
+  <script>
+    /*
+     * IMPORTANTE:
+     * Troque esta URL pela URL real do seu Cloudflare Worker.
+     * O token GitHub fica somente como Secret no Worker.
+     */
+    const ADMIN_API = "https://SUBSTITUA-PELO-SEU-WORKER.workers.dev";
+    const ADMIN_SESSION_KEY = "ultrabyte_admin_session";
+
+    let adminEditingSlug = null;
+
+    const adminEl = id => document.getElementById(id);
+
+    function adminStatus(message, error = false) {
+      adminEl("adminStatus").textContent = message;
+      adminEl("adminStatus").style.borderColor =
+        error ? "#ff7272" : "#354765";
+    }
+
+    function adminSetLoggedIn(loggedIn) {
+      adminEl("adminLogin").classList.toggle("admin-hidden", loggedIn);
+      adminEl("adminDashboard").classList.toggle("admin-hidden", !loggedIn);
+    }
+
+    async function adminApi(path, options = {}) {
+      if (ADMIN_API.includes("SUBSTITUA-PELO-SEU-WORKER") ||
+          !ADMIN_API.startsWith("https://")) {
+        throw new Error("Configure a URL HTTPS do Cloudflare Worker neste index.html.");
+      }
+
+      const headers = new Headers(options.headers || {});
+      headers.set("Content-Type", "application/json");
+
+      const token = sessionStorage.getItem(ADMIN_SESSION_KEY);
+      if (token) headers.set("Authorization", "Bearer " + token);
+
+      const response = await fetch(
+        ADMIN_API.replace(/\/+$/, "") + path,
+        { ...options, headers }
+      );
+
+      const data = await response.json().catch(() => ({}));
+
+      if (response.status === 401 && path !== "/api/login") {
+        sessionStorage.removeItem(ADMIN_SESSION_KEY);
+        adminSetLoggedIn(false);
+      }
+
+      if (!response.ok) {
+        throw new Error(data.error || "Erro ao comunicar com a API.");
+      }
+
+      return data;
+    }
+
+    function adminTextElement(tag, text) {
+      const element = document.createElement(tag);
+      element.textContent = text;
+      return element;
+    }
+
+    async function adminLoadArticles() {
+      try {
+        const data = await adminApi("/api/articles");
+        const list = adminEl("adminArticles");
+        list.replaceChildren();
+
+        if (!Array.isArray(data.articles) || data.articles.length === 0) {
+          list.append(adminTextElement("p", "Nenhum artigo encontrado."));
+          adminStatus("Lista carregada.");
+          return;
+        }
+
+        for (const article of data.articles) {
+          const row = document.createElement("div");
+          row.className = "admin-article";
+
+          const info = document.createElement("div");
+          info.append(adminTextElement("strong", article.title || article.slug));
+          info.append(adminTextElement("small", article.path || article.slug + ".html"));
+
+          const buttons = document.createElement("div");
+
+          const edit = adminTextElement("button", "Editar");
+          edit.type = "button";
+          edit.className = "admin-secondary";
+          edit.addEventListener("click", () => adminEditArticle(article.slug));
+
+          const remove = adminTextElement("button", "Excluir");
+          remove.type = "button";
+          remove.className = "admin-delete";
+          remove.addEventListener("click", () => adminDeleteArticle(article.slug));
+
+          buttons.append(edit, remove);
+          row.append(info, buttons);
+          list.append(row);
+        }
+
+        adminStatus("Lista de artigos atualizada.");
+      } catch (error) {
+        adminStatus(error.message, true);
+      }
+    }
+
+    async function adminEditArticle(slug) {
+      try {
+        const article = await adminApi(
+          "/api/articles/" + encodeURIComponent(slug)
+        );
+
+        adminEditingSlug = article.slug;
+        adminEl("adminSlug").value = article.slug;
+        adminEl("adminTitle").value = article.title || article.slug;
+        adminEl("adminHtml").value = article.html || "";
+        adminEl("adminFormTitle").textContent = "Editar artigo";
+
+        adminEl("adminArticleForm").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+        adminStatus("Artigo carregado para edição.");
+      } catch (error) {
+        adminStatus(error.message, true);
+      }
+    }
+
+    async function adminDeleteArticle(slug) {
+      if (!confirm('Deseja excluir "' + slug + '.html" do repositório?')) return;
+
+      try {
+        await adminApi(
+          "/api/articles/" + encodeURIComponent(slug),
+          { method: "DELETE" }
+        );
+
+        if (adminEditingSlug === slug) adminResetForm();
+
+        adminStatus("Artigo excluído do GitHub.");
+        await adminLoadArticles();
+      } catch (error) {
+        adminStatus(error.message, true);
+      }
+    }
+
+    function adminResetForm() {
+      adminEditingSlug = null;
+      adminEl("adminArticleForm").reset();
+      adminEl("adminFormTitle").textContent = "Criar artigo";
+    }
+
+    adminEl("openAdmin").addEventListener("click", () => {
+      adminEl("adminArea").hidden = false;
+      adminEl("adminArea").scrollIntoView({ behavior: "smooth" });
+    });
+
+    adminEl("adminLoginForm").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      try {
+        const result = await adminApi("/api/login", {
+          method: "POST",
+          body: JSON.stringify({
+            password: adminEl("adminPassword").value
+          })
+        });
+
+        sessionStorage.setItem(ADMIN_SESSION_KEY, result.token);
+        adminEl("adminPassword").value = "";
+        adminSetLoggedIn(true);
+        adminStatus("Login realizado.");
+        await adminLoadArticles();
+      } catch (error) {
+        adminStatus(error.message, true);
+      }
+    });
+
+    adminEl("adminLogout").addEventListener("click", () => {
+      sessionStorage.removeItem(ADMIN_SESSION_KEY);
+      adminSetLoggedIn(false);
+      adminResetForm();
+      adminStatus("Você saiu do painel.");
+    });
+
+    adminEl("adminRefresh").addEventListener("click", adminLoadArticles);
+    adminEl("adminNew").addEventListener("click", adminResetForm);
+
+    adminEl("adminArticleForm").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      const slug = adminEl("adminSlug").value.trim();
+      const title = adminEl("adminTitle").value.trim();
+      const html = adminEl("adminHtml").value;
+
+      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+        adminStatus("Use letras minúsculas, números e hífens no nome do arquivo.", true);
+        return;
+      }
+
+      const saveButton = adminEl("adminSave");
+      saveButton.disabled = true;
+
+      try {
+        await adminApi(
+          "/api/articles/" + encodeURIComponent(slug),
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              title,
+              html,
+              previousSlug: adminEditingSlug
+            })
+          }
+        );
+
+        adminEditingSlug = slug;
+        adminEl("adminFormTitle").textContent = "Editar artigo";
+        adminStatus("Artigo salvo no GitHub. Aguarde a publicação do site.");
+        await adminLoadArticles();
+      } catch (error) {
+        adminStatus(error.message, true);
+      } finally {
+        saveButton.disabled = false;
+      }
+    });
+
+    if (sessionStorage.getItem(ADMIN_SESSION_KEY)) {
+      adminSetLoggedIn(true);
+      // A validação real acontece quando a API é consultada.
+      adminLoadArticles();
+    } else {
+      adminSetLoggedIn(false);
+    }
+  </script>
 </body>
 </html>
