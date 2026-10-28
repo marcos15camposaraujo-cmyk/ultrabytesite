@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -175,7 +174,6 @@
     <section class="contato" id="contato">
       <h2>Precisa de ajuda?</h2>
       <p>Entre em contato para consultar serviços e orçamentos.</p>
-      <!-- Substitua pelo seu número com código do país e DDD -->
       <a class="botao" href="https://wa.me/5511999999999"
          target="_blank" rel="noopener noreferrer">
         Falar pelo WhatsApp
@@ -186,7 +184,7 @@
     <section id="adminArea" hidden>
       <h2>⚙️ Área administrativa UltraByte</h2>
       <p id="adminStatus" role="status" aria-live="polite">
-        Configure a URL do Cloudflare Worker para ativar o painel.
+        Painel pronto para uso. Faça login abaixo.
       </p>
 
       <div id="adminLogin">
@@ -266,12 +264,7 @@
   <script src="script.js"></script>
 
   <script>
-    /*
-     * IMPORTANTE:
-     * Troque esta URL pela URL real do seu Cloudflare Worker.
-     * O token GitHub fica somente como Secret no Worker.
-     */
-    const ADMIN_API = "https://SUBSTITUA-PELO-SEU-WORKER.workers.dev";
+    const ADMIN_API = "https://ultrabytes.marcos15camposaraujo.workers.dev";
     const ADMIN_SESSION_KEY = "ultrabyte_admin_session";
 
     let adminEditingSlug = null;
@@ -493,7 +486,6 @@
 
     if (sessionStorage.getItem(ADMIN_SESSION_KEY)) {
       adminSetLoggedIn(true);
-      // A validação real acontece quando a API é consultada.
       adminLoadArticles();
     } else {
       adminSetLoggedIn(false);
