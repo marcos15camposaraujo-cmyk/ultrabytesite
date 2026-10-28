@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel do Blog | UltraByte</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <a class="logo" href="index.html">⚡ UltraByte</a>
+    <nav><a href="index.html">Site</a><a href="blog.html">Ver blog</a></nav>
+  </header>
+  <main class="admin">
+    <section class="painel">
+      <h1>Painel do Blog</h1><p>Cadastre e gerencie os artigos da UltraByte.</p><p class="aviso-admin">Atenção: esta versão salva os artigos apenas neste navegador. Para publicar artigos para todos os visitantes, será necessário conectar o site a um servidor ou banco de dados e proteger este painel com login.</p>
+      <form id="formArtigo">
+        <input type="hidden" id="artigoId">
+        <label for="titulo">Título do artigo</label>
+        <input id="titulo" required maxlength="120" placeholder="Ex.: Como deixar o PC mais rápido">
+        <label for="categoria">Categoria</label>
+        <select id="categoria" required>
+          <option value="Manutenção">Manutenção</option><option value="Hardware">Hardware</option>
+          <option value="Informática">Informática</option><option value="Segurança">Segurança digital</option>
+          <option value="Tutoriais">Tutoriais</option>
+        </select>
+        <label for="resumo">Resumo</label>
+        <textarea id="resumo" required maxlength="250" placeholder="Breve descrição do artigo"></textarea>
+        <label for="conteudo">Conteúdo completo</label>
+        <textarea id="conteudo" required rows="10" placeholder="Escreva o artigo aqui..."></textarea>
+        <button class="botao" type="submit" id="salvarArtigo">Publicar artigo</button>
+        <button class="botao secundario" type="button" id="cancelarEdicao" hidden>Cancelar edição</button>
+      </form>
+      <p id="mensagem" role="status"></p>
+    </section>
+    <section><h2>Artigos cadastrados</h2><div id="listaAdmin" class="lista-admin"></div></section>
+  </main>
+  <footer><p>UltraByte — Administração do blog</p></footer>
+  <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog | UltraByte</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <a class="logo" href="index.html">⚡ UltraByte</a>
+    <nav><a href="index.html">Início</a><a href="blog.html">Blog</a><a href="#artigos">Artigos</a></nav>
+  </header>
+  <main>
+    <section class="hero"><h1>Blog UltraByte</h1><p>Dicas de informática, manutenção e tecnologia.</p></section>
+    <section id="artigos">
+      <h2>Últimos artigos</h2>
+      <div id="listaArtigos" class="grade"></div>
+      <article id="leitura" class="card leitura" hidden>
+        <h2 id="tituloLeitura"></h2><p id="categoriaLeitura" class="categoria"></p>
+        <div id="textoLeitura" class="texto-artigo"></div>
+        <section class="comentarios" aria-labelledby="tituloComentarios">
+          <h3 id="tituloComentarios">💬 Comentários</h3>
+          <p class="ajuda-comentarios">Deixe sua opinião ou dúvida sobre este artigo.</p>
+          <form id="formComentario" class="form-comentario">
+            <label for="nomeComentario">Seu nome</label>
+            <input id="nomeComentario" name="nome" maxlength="50" required placeholder="Como podemos te chamar?">
+            <label for="textoComentario">Comentário</label>
+            <textarea id="textoComentario" name="comentario" maxlength="1000" required placeholder="Escreva seu comentário..."></textarea>
+            <button class="botao" type="submit">Publicar comentário</button>
+            <p id="mensagemComentario" role="status" aria-live="polite"></p>
+          </form>
+          <div id="listaComentarios" class="lista-comentarios" aria-live="polite"></div>
+        </section>
+        <button class="botao" id="voltarArtigos">Voltar aos artigos</button>
+      </article>
+    </section>
+  </main>
+  <footer><p>© <span id="ano"></span> UltraByte</p><a href="index.html">Página inicial</a></footer>
+  <script src="script.js"></script>
+</body>
+</html>
